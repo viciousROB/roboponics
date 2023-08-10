@@ -296,128 +296,90 @@ void ManualMenu() {
   }
 }
 
-
 void LightAdjust() {
-  delay(500);
+  const int maxTime = 24;  // Max value for Day and Night
+  
   display.clearDisplay();
+  delay(500);  // Initial delay
+  
   while (currentMenu == LIGHT_ADJUST) {
     display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
     display.setCursor(0, 0);
     display.println(F("Adjust Lighting Time"));
-
-    if (selectedMenuIndex == 1) {
-      display.print(F("> Day: "));
-      if(DAY<10){
-        display.print(0);
-      }
-      display.println(DAY);
+    
+    // Adjust Day and Night
+    int adjustTime;
+    const __FlashStringHelper *timeLabel;
+    bool isDay = selectedMenuIndex == 1;
+    
+    if (isDay) {
+      adjustTime = DAY;
+      timeLabel = F("Day");
+    } else {
+      adjustTime = NIGHT;
+      timeLabel = F("Night");
+    }
+    
+    display.print(isDay ? F("> ") : F("  "));
+    display.print(reinterpret_cast<const char*>(timeLabel));
+    display.print(F(": "));
+    
+    if (adjustTime < 10) {
+      display.print(F("0"));
+    }
+    display.println(adjustTime);
+    
+    if (digitalRead(selectPin) == LOW) {
+      delay(debounceDelay);
       if (digitalRead(selectPin) == LOW) {
-        delay(debounceDelay);
-        if (digitalRead(selectPin) == LOW) {
-          bool runit = true;
-          while (runit) {
-            display.print(F("* Day: "));
-            if(DAY<10){
-              display.print("0");
-            }
-            display.println(DAY);
-            if (digitalRead(upPin) == LOW) {
-              delay(debounceDelay);
-              if (digitalRead(upPin) == LOW && DAY < 24) {
-                DAY++;
-              } else if (digitalRead(upPin) == LOW && DAY >= 24) {
-                DAY = 0;
-              }
-            }
-
-            if (digitalRead(downPin) == LOW) {
-              delay(debounceDelay);
-              if (digitalRead(downPin) == LOW && DAY > 0) {
-                DAY--;
-              } else if (digitalRead(downPin) == LOW && DAY <= 0) {
-                DAY = 24;
-              }
-            }
-
-            if (digitalRead(selectPin) == LOW) {
-              display.print(F("> Day: "));
-              if(DAY < 10){
-                display.print("0");
-              }
-              display.println(DAY);
-              runit = false;
+        bool runit = true;
+        while (runit) {
+          display.print(F("* "));
+          display.print(reinterpret_cast<const char*>(timeLabel));
+          display.print(F(": "));
+          
+          if (adjustTime < 10) {
+            display.print(F("0"));
+          }
+          display.println(adjustTime);
+          
+          if (digitalRead(upPin) == LOW) {
+            delay(debounceDelay);
+            if (digitalRead(upPin) == LOW && adjustTime < maxTime) {
+              adjustTime++;
+            } else if (digitalRead(upPin) == LOW && adjustTime >= maxTime) {
+              adjustTime = 0;
             }
           }
-        }
-      }
-    } else {
-      display.print(F("  Day: "));
-      if(DAY < 10){
-        display.print(F("0"));
-      }
-      display.println(DAY);
-    }
-
-    if (selectedMenuIndex == 2) {
-      display.print(F("> Night: "));
-      if(NIGHT<10){
-        display.print(F("0"));
-      }
-      display.println(NIGHT);
-      if (digitalRead(selectPin) == LOW) {
-        delay(debounceDelay);
-        if (digitalRead(selectPin) == LOW) {
-          bool run2it = true;
-          while (run2it) {
-            display.print(F("* Night: "));
-            if(NIGHT < 10){
+          
+          if (digitalRead(downPin) == LOW) {
+            delay(debounceDelay);
+            if (digitalRead(downPin) == LOW && adjustTime > 0) {
+              adjustTime--;
+            } else if (digitalRead(downPin) == LOW && adjustTime <= 0) {
+              adjustTime = maxTime;
+            }
+          }
+          
+          if (digitalRead(selectPin) == LOW) {
+            display.print(isDay ? F("> ") : F("  "));
+            display.print(reinterpret_cast<const char*>(timeLabel));
+            display.print(F(": "));
+            
+            if (adjustTime < 10) {
               display.print(F("0"));
             }
-            display.println(NIGHT);
-            if (digitalRead(upPin) == LOW) {
-              delay(debounceDelay);
-              if (digitalRead(upPin) == LOW && NIGHT < 24) {
-                NIGHT++;
-              } else if (digitalRead(upPin) == LOW && NIGHT >= 24) {
-                NIGHT = 0;
-              }
-            }
-
-            if (digitalRead(downPin) == LOW) {
-              delay(debounceDelay);
-              if (digitalRead(downPin) == LOW && NIGHT > 0) {
-                NIGHT--;
-              } else if (digitalRead(downPin) == LOW && NIGHT <= 0) {
-                NIGHT = 24;
-              }
-            }
-
-            if (digitalRead(selectPin) == LOW) {
-              display.print(F("> Night: "));
-              if(NIGHT < 10){
-                display.print(F("0"));
-              }
-              display.println(NIGHT);
-              run2it = false;
-            }
+            display.println(adjustTime);
+            runit = false;
           }
         }
       }
-    } else {
-      display.print(F(" Night: "));
-      if(NIGHT < 10){
-        display.print(F("0"));
-      }
-      display.println(NIGHT);
     }
-
+    
+    // Return option
     if (selectedMenuIndex == 3) {
-      display.println("");
-      display.println("");
-      display.println("");
-      display.println("");
-      display.print(F("> RETURN"));
+      display.println(F("\n\n\n\n> RETURN"));
       if (digitalRead(selectPin) == LOW) {
         delay(debounceDelay);
         if (digitalRead(selectPin) == LOW) {
@@ -427,12 +389,9 @@ void LightAdjust() {
         }
       }
     } else {
-      display.println("");
-      display.println("");
-      display.println("");
-      display.println("");
-      display.print(F("  RETURN"));
+      display.println(F("\n\n\n\n  RETURN"));
     }
+    
     menuNavigation();
   }
 }
