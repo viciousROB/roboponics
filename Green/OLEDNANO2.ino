@@ -411,36 +411,34 @@ void ToggleLights() {
 void SensorAdjust() {
   delay(500);
   display.clearDisplay();
+  
   while (currentMenu == SENSOR_ADJUST) {
-    while (digitalRead(selectPin) != LOW) {
-      display.setTextSize(1);
-      display.setTextColor(SSD1306_WHITE);
-      display.setCursor(0, 24);
-      display.print(F("# of Sensors: "));
-      display.print(numPins);
-      display.display();
-      if (digitalRead(upPin) == LOW){
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 24);
+    display.print(F("# of Sensors: "));
+    display.print(numPins);
+    display.display();
+
+    if (digitalRead(selectPin) == LOW) {
+      EEPROM.write(EEPNumpins, numPins);
+      currentMenu = STATS;
+    } else {
+      if (digitalRead(upPin) == LOW && numPins < maxPins) {
+        numPins++;
         delay(debounceDelay);
-        if (digitalRead(upPin) == LOW && numPins < maxPins) {
-          numPins++;
-        }
-      }
-      if (digitalRead(downPin) == LOW){
+      } else if (digitalRead(downPin) == LOW && numPins > 0) {
+        numPins--;
         delay(debounceDelay);
-        if (digitalRead(downPin) == LOW && numPins > 0 ) {
-          numPins--;
-        }
       }
     }
-    EEPROM.write(EEPNumpins, numPins);
-    currentMenu = STATS;
   }
 }
 
 void TogglePump() {
   display.clearDisplay();
+  
   while (currentMenu == TOGGLE_PUMP) {
-
     int remainingTime = wateringTime;
     int minutes, seconds;
 
@@ -458,9 +456,7 @@ void TogglePump() {
       display.print(F(" "));
       display.print(minutes);
       display.print(":");
-      if (seconds < 10) {
-        display.print(0);
-      }
+      if (seconds < 10) display.print(0);
       display.println(seconds);
 
       if (digitalRead(selectPin) == LOW) {
@@ -483,8 +479,7 @@ void TogglePump() {
       display.clearDisplay();
       remainingTime--;
     }
-    //Turn off the Pump
-    digitalWrite(PumpRelay, LOW); 
+    digitalWrite(PumpRelay, LOW);  // Turn off the Pump
     currentMenu = STATS;
   }
 }
@@ -493,18 +488,15 @@ void menuNavigation() {
   if (digitalRead(upPin) == LOW) {
     delay(debounceDelay);
     if (digitalRead(upPin) == LOW) {
-      selectedMenuIndex++;
-      if (selectedMenuIndex > 3) {
-        selectedMenuIndex = 1;
-      }
+      selectedMenuIndex = (selectedMenuIndex % 3) + 1;
     }
   }
 
   if (digitalRead(downPin) == LOW) {
     delay(debounceDelay);
     if (digitalRead(downPin) == LOW) {
-      selectedMenuIndex--;
-      if (selectedMenuIndex < 1) {
+      selectedMenuIndex = (selectedMenuIndex + 1) % 4;
+      if (selectedMenuIndex == 0) {
         selectedMenuIndex = 3;
       }
     }
@@ -517,25 +509,29 @@ void wateringTimeAdjust() {
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
   display.println(F("Adjust Watering Time"));
-  while(currentMenu == WADJUST){
+  
+  while (currentMenu == WADJUST) {
     display.setCursor(0,16);
     display.print(F("Seconds: "));
     display.print(wateringTime);
     display.display();
-    if(digitalRead(upPin) == LOW){
+    
+    if (digitalRead(upPin) == LOW && wateringTime < 255) {
       delay(debounceDelay);
-      if(digitalRead(upPin) == LOW && wateringTime < 255){
+      if (digitalRead(upPin) == LOW) {
         wateringTime++;
       }
-    } else if(digitalRead(downPin) == LOW){
+    } 
+    else if (digitalRead(downPin) == LOW && wateringTime > 0) {
       delay(debounceDelay);
-      if(digitalRead(downPin) == LOW && wateringTime > 0){
+      if (digitalRead(downPin) == LOW) {
         wateringTime--;
       }
     }
-    if(digitalRead(selectPin) == LOW){
+    
+    if (digitalRead(selectPin) == LOW) {
       delay(debounceDelay);
-      if(digitalRead(selectPin) == LOW){
+      if (digitalRead(selectPin) == LOW) {
         EEPROM.write(eepWadjust, wateringTime);
         currentMenu = STATS;
         break;
