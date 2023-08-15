@@ -1,0 +1,12 @@
+Roboponics Green Bill of Materials
+Quantity  |        Part Name        |  Link
+3         | 6MMx5MM BTN             | https://www.amazon.com/QTEATAK-Momentary-Tactile-Button-Switch/dp/B07VSNN9S2/ref=sr_1_3?keywords=6mm%2Bbutton&qid=1692121639&sr=8-3&th=1
+1         | Arduino Nano            | https://www.amazon.com/dp/B08Z7HQ2B6/ref=twister_B09H6P3SRB?_encoding=UTF8&th=1
+1         | 0.96" OLED (i2c)        | https://www.amazon.com/dp/B08VNRH5HR?ref=ppx_yo2ov_dt_b_product_details&th=1
+1         | RTC Module (i2c)        | https://www.amazon.com/dp/B07TVMVDDP?psc=1&ref=ppx_yo2ov_dt_b_product_details
+1         | 1x40 2.54mm Male Headers| https://www.amazon.com/Breakaway-Header-Straight-Connector-Prototype/dp/B07BXDYTBP/ref=sr_1_6?crid=1SQGBUZR1FE98&keywords=2.54mm+pin+header+male&qid=1692121430&s=electronics&sprefix=2.54mm+pin+header+mal%2Celectronics%2C104&sr=1-6
+1         | "^ Red Pin Headers      | https://www.amazon.com/Jabinco-Breakable-Header-Connector-Arduino/dp/B0817JG3XN/ref=d_m_crc_dp_lf_d_t1_sccl_3_4/139-2527103-9562366?pd_rd_w=zuJZv&content-id=amzn1.sym.5d471845-5073-424b-b27b-c0676f48a016&pf_rd_p=5d471845-5073-424b-b27b-c0676f48a016&pf_rd_r=7VFK1GV5G22HS6Y9D2VZ&pd_rd_wg=oP8Ls&pd_rd_r=4cc03bb3-0cda-42f8-a0ea-260beb6b8716&pd_rd_i=B0817JG3XN&psc=1
+1         | "^ Yellow Pin Headers   | https://www.amazon.com/Jabinco-Breakable-Header-Connector-Arduino/dp/B0817JG3XN/ref=d_m_crc_dp_lf_d_t1_sccl_3_4/139-2527103-9562366?pd_rd_w=zuJZv&content-id=amzn1.sym.5d471845-5073-424b-b27b-c0676f48a016&pf_rd_p=5d471845-5073-424b-b27b-c0676f48a016&pf_rd_r=7VFK1GV5G22HS6Y9D2VZ&pd_rd_wg=oP8Ls&pd_rd_r=4cc03bb3-0cda-42f8-a0ea-260beb6b8716&pd_rd_i=B0817JG3XN&psc=1
+1         | Case Top                | 
+1         | Case Bottom             | 
+1         | Green PCB               |
