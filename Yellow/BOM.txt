@@ -1,7 +1,7 @@
 Roboponic Yellow Bill of Materials
 Quantity  |        Part Name        |  Link
 3         | 6MMx5MM BTN             | https://www.amazon.com/QTEATAK-Momentary-Tactile-Button-Switch/dp/B07VSNN9S2/ref=sr_1_3?keywords=6mm%2Bbutton&qid=1692121639&sr=8-3&th=1
-1         | Raspberry Pi Pico       |
+1         | Raspberry Pi Pico W     |
 1         | 1.30" OLED (i2c)        |
 1	  | CD4051BF		    |
 1         | 1x40 2.54mm Male Headers| https://www.amazon.com/Breakaway-Header-Straight-Connector-Prototype/dp/B07BXDYTBP/ref=sr_1_6?crid=1SQGBUZR1FE98&keywords=2.54mm+pin+header+male&qid=1692121430&s=electronics&sprefix=2.54mm+pin+header+mal%2Celectronics%2C104&sr=1-6
